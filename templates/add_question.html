@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Add Question to {{ exam.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Question Text -->
+        <div class="form-group">
+            <label for="question_text">Question:</label>
+            <textarea id="question_text" name="question_text" class="form-control" required></textarea>
+        </div>
+        
+        <!-- Answers -->
+        <div class="form-group">
+            <label>Answers:</label>
+            
+            <!-- Answer A -->
+            <label for="answer_a" class="sr-only">Answer A:</label>
+            <input type="text" id="answer_a" name="answer_a" placeholder="Answer A" class="form-control mb-2" required>
+            
+            <!-- Answer B -->
+            <label for="answer_b" class="sr-only">Answer B:</label>
+            <input type="text" id="answer_b" name="answer_b" placeholder="Answer B" class="form-control mb-2" required>
+            
+            <!-- Answer C -->
+            <label for="answer_c" class="sr-only">Answer C:</label>
+            <input type="text" id="answer_c" name="answer_c" placeholder="Answer C" class="form-control mb-2" required>
+            
+            <!-- Answer D -->
+            <label for="answer_d" class="sr-only">Answer D:</label>
+            <input type="text" id="answer_d" name="answer_d" placeholder="Answer D" class="form-control mb-2" required>
+        </div>
+        
+        <!-- Correct Answer -->
+        <div class="form-group">
+            <label for="correct_answer">Correct Answer:</label>
+            <select id="correct_answer" name="correct_answer" class="form-control" required>
+                <option value="" disabled selected>Select the correct answer</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Add Question</button>
+    </form>
+</div>
+{% endblock %}

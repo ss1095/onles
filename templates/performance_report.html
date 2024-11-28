@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Performance Report</h2>
+    <p><strong>Average Score:</strong> {{ average_score|floatformat:2 }}%</p>
+    <p><strong>Highest Score:</strong> {{ highest_score|floatformat:2 }}%</p>
+    <p><strong>Lowest Score:</strong> {{ lowest_score|floatformat:2 }}%</p>
+
+    <h3>Your Exam Results</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Exam</th>
+                <th>Score</th>
+                <th>Date Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exam in student_exams %}
+            <tr>
+                <td>{{ exam.exam.title }}</td>
+                <td>{{ exam.score|floatformat:2 }}%</td>
+                <td>{{ exam.completed_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Performance Chart Canvas -->
+    <canvas id="performanceChart" width="400" height="200"></canvas>
+</div>
+
+{% endblock %}
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    const performanceData = {
+        labels: [{% for exam in student_exams %}"{{ exam.exam.title }}",{% endfor %}],
+        datasets: [{
+            label: 'Scores',
+            data: [{% for exam in student_exams %}{{ exam.score }},{% endfor %}],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    const performanceChart = new Chart(ctx, {
+        type: 'bar',
+        data: performanceData,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
